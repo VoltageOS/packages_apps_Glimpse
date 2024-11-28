@@ -74,7 +74,7 @@ class AlbumFlow(
 
         val selectionArgs = listOfNotNull(
             bucketId.takeIf {
-                MediaStoreBuckets.values().none { bucket -> it == bucket.id }
+                MediaStoreBuckets.entries.none { bucket -> it == bucket.id }
             }?.toString(),
             rawMimeType,
         ).toTypedArray()
