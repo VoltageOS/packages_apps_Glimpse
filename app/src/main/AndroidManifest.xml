@@ -109,9 +109,9 @@
 
         <activity
             android:name=".SetWallpaperActivity"
-            android:label="@string/set_wallpaper_label"
             android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize|keyboardHidden"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/set_wallpaper_label">
 
             <intent-filter>
                 <action android:name="android.intent.action.ATTACH_DATA" />
