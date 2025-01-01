@@ -13,12 +13,11 @@ import coil3.gif.AnimatedImageDecoder
 import coil3.memory.MemoryCache
 import coil3.video.VideoFrameDecoder
 import com.google.android.material.color.DynamicColors
-import kotlinx.coroutines.MainScope
 import org.lineageos.glimpse.repository.MediaRepository
 import org.lineageos.glimpse.ui.coil.ThumbnailMapper
 
 class GlimpseApplication : Application(), SingletonImageLoader.Factory {
-    val mediaRepository by lazy { MediaRepository(applicationContext, MainScope()) }
+    val mediaRepository by lazy { MediaRepository(applicationContext) }
 
     override fun onCreate() {
         super.onCreate()

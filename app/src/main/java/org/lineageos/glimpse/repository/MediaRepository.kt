@@ -8,7 +8,6 @@ package org.lineageos.glimpse.repository
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import kotlinx.coroutines.CoroutineScope
 import org.lineageos.glimpse.datasources.LocalDataSource
 import org.lineageos.glimpse.datasources.MediaDataSource
 import org.lineageos.glimpse.models.MediaType
@@ -20,7 +19,6 @@ import org.lineageos.glimpse.models.MediaType
  */
 class MediaRepository(
     private val context: Context,
-    scope: CoroutineScope,
 ) {
     /**
      * Content resolver.
