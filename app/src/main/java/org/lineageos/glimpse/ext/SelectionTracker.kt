@@ -18,7 +18,7 @@ private val <K> SelectionTracker<K>.observers: ArrayList<SelectionObserver<K>>
     }
 
 private val <K> SelectionTracker<K>.adapterDataObserverExt: RecyclerView.AdapterDataObserver
-    get() = SelectionTracker::class.java.getDeclaredMethod("getAdapterDataObserver").let {
+    get() = DefaultSelectionTracker::class.java.getDeclaredMethod("getAdapterDataObserver").let {
         it.isAccessible = true
         it.invoke(this) as RecyclerView.AdapterDataObserver
     }
