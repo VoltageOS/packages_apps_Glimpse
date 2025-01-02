@@ -166,6 +166,7 @@ class ThumbnailAdapter : ListAdapter<AlbumViewModel.AlbumContent, RecyclerView.V
                         Thumbnail.MAX_THUMBNAIL_SIZE,
                         Thumbnail.MAX_THUMBNAIL_SIZE
                     )
+                    .centerCrop()
             )
 
             videoOverlayImageView.isVisible = media.mediaType == MediaType.VIDEO

@@ -111,6 +111,7 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums) {
                             Thumbnail.MAX_THUMBNAIL_SIZE,
                             Thumbnail.MAX_THUMBNAIL_SIZE
                         )
+                        .centerCrop()
                 )
             }
         }
