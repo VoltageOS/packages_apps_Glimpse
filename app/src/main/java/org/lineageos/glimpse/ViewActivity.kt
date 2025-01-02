@@ -36,6 +36,7 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.lineageos.glimpse.datasources.MediaError
 import org.lineageos.glimpse.ext.buildEditIntent
 import org.lineageos.glimpse.ext.buildShareIntent
 import org.lineageos.glimpse.ext.buildUseAsIntent
@@ -356,12 +357,22 @@ class ViewActivity : AppCompatActivity(R.layout.activity_view) {
 
                                 viewModel.setMediaPosition(position)
                             }
+
+                            if (medias.isEmpty()) {
+                                // Get out of here
+                                finish()
+                            }
                         }
 
                         is RequestStatus.Error -> {
                             Log.e(LOG_TAG, "Failed to load medias, error: ${it.error}")
 
                             mediaViewerAdapter.submitList(listOf())
+
+                            if (it.error == MediaError.NOT_FOUND) {
+                                // Get out of here
+                                finish()
+                            }
                         }
                     }
                 }

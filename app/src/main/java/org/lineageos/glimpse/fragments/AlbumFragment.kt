@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.lineageos.glimpse.R
 import org.lineageos.glimpse.ViewActivity
+import org.lineageos.glimpse.datasources.MediaError
 import org.lineageos.glimpse.ext.buildShareIntent
 import org.lineageos.glimpse.ext.createDeleteRequest
 import org.lineageos.glimpse.ext.createTrashRequest
@@ -473,6 +474,11 @@ class AlbumFragment : Fragment(R.layout.fragment_album) {
                             recyclerView.isVisible = false
                             toolbar.menu.findItem(R.id.emptyTrash)?.isVisible = false
                             noMediaLinearLayout.isVisible = true
+
+                            if (it.error == MediaError.NOT_FOUND) {
+                                // Get out of here
+                                findNavController().navigateUp()
+                            }
                         }
                     }
                 }
