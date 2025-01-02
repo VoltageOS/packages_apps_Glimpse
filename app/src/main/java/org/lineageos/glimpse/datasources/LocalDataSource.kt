@@ -102,7 +102,7 @@ class LocalDataSource(
             typedMediaType,
             mimeType,
             albumUri,
-            bucketDisplayName,
+            bucketDisplayName ?: Build.MODEL,
             displayName,
             isFavorite,
             isTrashed,
