@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023-2024 The LineageOS Project
+ * SPDX-FileCopyrightText: 2023-2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -32,7 +32,7 @@ data class Media(
     val mimeType: String,
     val albumUri: Uri,
     val albumName: String?,
-    val displayName: String,
+    val displayName: String?,
     val isFavorite: Boolean,
     val isTrashed: Boolean,
     val dateAdded: Date,
