@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -36,6 +37,7 @@ import org.lineageos.glimpse.ext.loadThumbnail
 import org.lineageos.glimpse.ext.updatePadding
 import org.lineageos.glimpse.models.Album
 import org.lineageos.glimpse.models.RequestStatus
+import org.lineageos.glimpse.models.Thumbnail
 import org.lineageos.glimpse.ui.recyclerview.AlbumThumbnailLayoutManager
 import org.lineageos.glimpse.ui.recyclerview.SimpleListAdapter
 import org.lineageos.glimpse.ui.recyclerview.UniqueItemDiffCallback
@@ -102,7 +104,14 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums) {
                     )
                 }
 
-                thumbnailImageView.loadThumbnail(item.thumbnail)
+                thumbnailImageView.loadThumbnail(
+                    item.thumbnail,
+                    options = RequestOptions()
+                        .override(
+                            Thumbnail.MAX_THUMBNAIL_SIZE,
+                            Thumbnail.MAX_THUMBNAIL_SIZE
+                        )
+                )
             }
         }
     }

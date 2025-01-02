@@ -23,10 +23,12 @@ import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import org.lineageos.glimpse.R
 import org.lineageos.glimpse.ext.load
 import org.lineageos.glimpse.models.Media
 import org.lineageos.glimpse.models.MediaType
+import org.lineageos.glimpse.models.Thumbnail
 import org.lineageos.glimpse.viewmodels.AlbumViewModel
 import java.util.Date
 import kotlin.reflect.safeCast
@@ -157,7 +159,15 @@ class ThumbnailAdapter : ListAdapter<AlbumViewModel.AlbumContent, RecyclerView.V
                 onItemSelected(media)
             }
 
-            thumbnailImageView.load(media.uri)
+            thumbnailImageView.load(
+                media.uri,
+                options = RequestOptions()
+                    .override(
+                        Thumbnail.MAX_THUMBNAIL_SIZE,
+                        Thumbnail.MAX_THUMBNAIL_SIZE
+                    )
+            )
+
             videoOverlayImageView.isVisible = media.mediaType == MediaType.VIDEO
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
