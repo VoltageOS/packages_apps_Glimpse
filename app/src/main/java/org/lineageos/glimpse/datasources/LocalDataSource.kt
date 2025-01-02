@@ -70,7 +70,7 @@ class LocalDataSource(
     private val mapMedia = { columnIndexCache: ColumnIndexCache ->
         val id = columnIndexCache.getLong(MediaStore.Files.FileColumns._ID)
         val bucketId = columnIndexCache.getLong(MediaStore.Files.FileColumns.BUCKET_ID)
-        val bucketDisplayName = columnIndexCache.getString(
+        val bucketDisplayName = columnIndexCache.getStringOrNull(
             MediaStore.Files.FileColumns.BUCKET_DISPLAY_NAME
         )
         val displayName = columnIndexCache.getStringOrNull(MediaStore.Files.FileColumns.DISPLAY_NAME)
