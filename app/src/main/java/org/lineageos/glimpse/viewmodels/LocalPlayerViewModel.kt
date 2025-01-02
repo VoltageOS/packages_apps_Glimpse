@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -27,11 +26,9 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
-import org.lineageos.glimpse.datasources.MediaError
 import org.lineageos.glimpse.ext.applicationContext
 import org.lineageos.glimpse.ext.isPlayingFlow
 import org.lineageos.glimpse.models.AlbumType
-import org.lineageos.glimpse.models.Media
 import org.lineageos.glimpse.models.RequestStatus
 import org.lineageos.glimpse.models.RequestStatus.Companion.map
 
@@ -190,27 +187,25 @@ class LocalPlayerViewModel(
     private val _fullscreenMode = MutableStateFlow(false)
     val fullscreenMode = _fullscreenMode.asStateFlow()
 
-    val newMediaPosition = combine(
+    val mediasWithInitialPosition = combine(
+        medias,
         mediaPosition,
         initialMedia,
-        medias.filterIsInstance<RequestStatus.Success<List<Media>, MediaError>>(),
-    ) { mediaPosition, initialMedia, medias ->
-        when (mediaPosition) {
-            null -> initialMedia?.let {
-                medias.data.indexOfFirst { media ->
-                    media.uri == it.uri
-                }.takeIf { idx -> idx != -1 }
-            } ?: 0
+    ) { medias, mediaPosition, initialMedia ->
+        medias.map { data ->
+            val newMediaPosition = when (mediaPosition) {
+                null -> initialMedia?.let {
+                    data.indexOfFirst { media ->
+                        media.uri == it.uri
+                    }.takeIf { idx -> idx != -1 }
+                } ?: 0
 
-            else -> null
+                else -> null
+            }
+
+            data to newMediaPosition
         }
     }
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = null,
-        )
 
     /**
      * The currently displayed media.

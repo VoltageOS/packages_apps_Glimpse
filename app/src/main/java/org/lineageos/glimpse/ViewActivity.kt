@@ -339,16 +339,23 @@ class ViewActivity : AppCompatActivity(R.layout.activity_view) {
             }
 
             launch {
-                viewModel.medias.collectLatest {
+                viewModel.mediasWithInitialPosition.collect {
                     when (it) {
                         is RequestStatus.Loading -> {
                             // Do nothing
                         }
 
                         is RequestStatus.Success -> {
-                            val medias = it.data
+                            val (medias, initialPosition) = it.data
 
                             mediaViewerAdapter.submitList(medias)
+
+                            initialPosition?.let { position ->
+                                viewPager.setCurrentItem(position, false)
+                                onPageChangeCallback.onPageSelected(position)
+
+                                viewModel.setMediaPosition(position)
+                            }
                         }
 
                         is RequestStatus.Error -> {
@@ -356,17 +363,6 @@ class ViewActivity : AppCompatActivity(R.layout.activity_view) {
 
                             mediaViewerAdapter.submitList(listOf())
                         }
-                    }
-                }
-            }
-
-            launch {
-                viewModel.newMediaPosition.collect { newMediaPosition ->
-                    newMediaPosition?.let {
-                        viewPager.setCurrentItem(it, false)
-                        onPageChangeCallback.onPageSelected(it)
-
-                        viewModel.setMediaPosition(it)
                     }
                 }
             }
