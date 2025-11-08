@@ -129,4 +129,8 @@
 
     <!-- Warnings and information -->
     <string name="warning_bin_time_period">Files will be permanently deleted after 30 days.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+
 </resources>
