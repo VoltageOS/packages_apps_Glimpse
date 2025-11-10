@@ -27,6 +27,7 @@ import org.lineageos.glimpse.R
 import org.lineageos.glimpse.ext.doubleTapSeekEnabled
 import org.lineageos.glimpse.ext.doubleTapSeekTime
 import org.lineageos.glimpse.ext.fade
+import org.lineageos.glimpse.ext.hideNativeSeekButtons
 import org.lineageos.glimpse.ext.load
 import org.lineageos.glimpse.models.Media
 import org.lineageos.glimpse.models.MediaType
@@ -94,6 +95,11 @@ class MediaViewerAdapter(
 
             // Update double-tap listener
             updateDoubleTapListener(isNowVideoPlayer)
+            
+            // Update native seek buttons visibility
+            if (isNowVideoPlayer) {
+                updateNativeSeekButtons()
+            }
         }
 
         private val sheetsHeightObserver = { sheetsHeight: Pair<Int, Int> ->
@@ -155,6 +161,17 @@ class MediaViewerAdapter(
                 doubleTapSeekListener = null
                 playerView.setOnTouchListener(null)
             }
+        }
+
+        @OptIn(androidx.media3.common.util.UnstableApi::class)
+        private fun updateNativeSeekButtons() {
+            val context = itemView.context
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val hideButtons = sharedPreferences.hideNativeSeekButtons
+            
+            // Update PlayerView to show/hide rewind and fast-forward buttons
+            playerView.setShowRewindButton(!hideButtons)
+            playerView.setShowFastForwardButton(!hideButtons)
         }
 
         fun bind(media: Media) {
